@@ -18,7 +18,7 @@ function updateCards(checkbox) {
   // console.log(query);
   userSelectedRarity = query;
 
-  fetch("https://api.scryfall.com/cards/search?order=name&q=c%3Ared+pow%3D3", {
+  fetch("https://api.pokemontcg.io/v2/cards?", {
     method: "GET",
   })
     .then((response) => response.json())
@@ -30,7 +30,7 @@ function updateCards(checkbox) {
 
 // ************** Dropdown List for Types ***************
 function myFunction() {
-  fetch("https://api.scryfall.com/cards/search?order=name&q=c%3Ared+pow%3D3", {
+  fetch("https://api.pokemontcg.io/v2/cards?", {
     method: "GET",
   })
     .then((response) => response.json())
@@ -47,7 +47,7 @@ function myFunction() {
 function getTypes(json) {
   updateTypes(json, "any", "any");
   for (item of json.data) {
-    let singleType = item.type_line;
+    let singleType = item.types[0];
     typeOfCards.push(singleType);
   }
 }
@@ -71,7 +71,7 @@ function displayTypes() {
 // ************** When Select an option in Dropdown List ***************
 function updatePage(value) {
   userSelectedType = value;
-  fetch("https://api.scryfall.com/cards/search?order=name&q=c%3Ared+pow%3D3", {
+  fetch("https://api.pokemontcg.io/v2/cards?", {
     method: "GET",
   })
     .then((response) => response.json())
@@ -90,7 +90,7 @@ function updateTypes(json, cardRarity, cardType) {
   if (cardRarity.toLowerCase() === "any" && cardType.toLowerCase() === "any") {
     console.log("In 1st if");
     for (let item of json.data) {
-      if (item.image_uris !== undefined) {
+      if (item.images !== undefined) {
         helper(item);
       }
     }
@@ -107,18 +107,18 @@ function updateTypes(json, cardRarity, cardType) {
   } else if (cardRarity.toLowerCase() === "any") {
     console.log("In 2nd else if");
     for (item of json.data) {
-      if (cardType === item.type_line && item.image_uris !== undefined) {
+      if (cardType === item.types[0] && item.image_uris !== undefined) {
         helper(item);
       }
       // console.log(cardType);
-      // console.log(item.type_line);
+      // console.log(item.types[0]);
     }
   } else {
     console.log("In else");
     for (item of json.data) {
       if (
         item.rarity === cardRarity.toLowerCase() &&
-        cardType === item.type_line &&
+        cardType === item.types[0] &&
         item.image_uris !== undefined
       ) {
         helper(item);
@@ -134,12 +134,13 @@ function firstLetterToUpperCase(word) {
 }
 
 function helper(item) {
-  // console.log("in ghelper");
+  console.log("in ghelper");
+  console.log(item);
   const name = item.name;
-  const cardType = item.type_line;
+  const cardType = item.types[0];
   const rarity = item.rarity;
-  const text = item.oracle_text;
-  const imgURL = item.image_uris.small;
+  const text = item.attacks[0].text;
+  const imgURL = item.images.small;
   const div = document.createElement("div");
   div.className = "item fade-in-image";
 
@@ -160,9 +161,14 @@ function helper(item) {
   parafType.setAttribute("class", "card-text");
 
   const parafRarity = document.createElement("p");
-  parafRarity.innerHTML =
-    "<span>Rarity: </span>" + firstLetterToUpperCase(rarity);
-  parafRarity.setAttribute("class", "card-text");
+  console.log(rarity);
+  if (rarity !== undefined) {
+    parafRarity.innerHTML =
+      "<span>Rarity: </span>" + firstLetterToUpperCase(rarity);
+    parafRarity.setAttribute("class", "card-text");
+  } else {
+    parafRarity.remove();
+  }
 
   const parafText = document.createElement("p");
   parafText.innerHTML = text;
