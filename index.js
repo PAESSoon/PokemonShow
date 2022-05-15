@@ -99,7 +99,7 @@ function updateTypes(json, cardRarity, cardType) {
     for (item of json.data) {
       if (
         item.rarity === cardRarity.toLowerCase() &&
-        item.image_uris !== undefined
+        item.images !== undefined
       ) {
         helper(item);
       }
@@ -107,7 +107,7 @@ function updateTypes(json, cardRarity, cardType) {
   } else if (cardRarity.toLowerCase() === "any") {
     console.log("In 2nd else if");
     for (item of json.data) {
-      if (cardType === item.types[0] && item.image_uris !== undefined) {
+      if (cardType === item.types[0] && item.images !== undefined) {
         helper(item);
       }
       // console.log(cardType);
@@ -119,7 +119,7 @@ function updateTypes(json, cardRarity, cardType) {
       if (
         item.rarity === cardRarity.toLowerCase() &&
         cardType === item.types[0] &&
-        item.image_uris !== undefined
+        item.images !== undefined
       ) {
         helper(item);
       }
@@ -139,7 +139,9 @@ function helper(item) {
   const name = item.name;
   const cardType = item.types[0];
   const rarity = item.rarity;
-  const text = item.attacks[0].text;
+
+  // console.log(item.attacks[0].text);
+  const text = item.attacks ? item.attacks[0].text : "";
   const imgURL = item.images.small;
   const div = document.createElement("div");
   div.className = "item fade-in-image";
