@@ -15,7 +15,7 @@ function updateCards(checkbox) {
   const selector = "label[for=" + checkbox.id + "]";
   const check_label = document.querySelector(selector);
   let query = check_label.innerHTML;
-  // console.log(query);
+  console.log(query);
   userSelectedRarity = query;
 
   fetch("https://api.pokemontcg.io/v2/cards?", {
@@ -83,8 +83,8 @@ function updatePage(value) {
 }
 
 function updateTypes(json, cardRarity, cardType) {
-  // console.log(cardType);
-  // console.log(cardRarity);
+  console.log("CardType: " + cardType);
+  console.log("CardRarity: " + cardRarity);
   const results = document.querySelector("#results");
   results.innerHTML = "";
   if (cardRarity.toLowerCase() === "any" && cardType.toLowerCase() === "any") {
@@ -97,11 +97,13 @@ function updateTypes(json, cardRarity, cardType) {
   } else if (cardType.toLowerCase() === "any") {
     console.log("In 1st else if");
     for (item of json.data) {
-      if (
-        item.rarity === cardRarity.toLowerCase() &&
-        item.images !== undefined
-      ) {
-        helper(item);
+      if (item.rarity !== undefined) {
+        if (
+          item.rarity.toLowerCase() === cardRarity.toLowerCase() &&
+          item.images !== undefined
+        ) {
+          helper(item);
+        }
       }
     }
   } else if (cardRarity.toLowerCase() === "any") {
@@ -116,12 +118,14 @@ function updateTypes(json, cardRarity, cardType) {
   } else {
     console.log("In else");
     for (item of json.data) {
-      if (
-        item.rarity === cardRarity.toLowerCase() &&
-        cardType === item.types[0] &&
-        item.images !== undefined
-      ) {
-        helper(item);
+      if (item.rarity !== undefined) {
+        if (
+          item.rarity.toLowerCase() === cardRarity.toLowerCase() &&
+          cardType === item.types[0] &&
+          item.images !== undefined
+        ) {
+          helper(item);
+        }
       }
     }
   }
