@@ -4,19 +4,26 @@ body {
     font-size: 12px;
     max-width: 75%;
     margin: auto;
+    background: #FDFDFD;
 }
 select {
     width: 100px;
 }
 #container {
+    background-image: url("images/background.jpg");
+    background-repeat:repeat-y;
+    background-size: 100%;
     display: flex;
     flex-direction: column;
     margin: auto;
     position:relative;
 }
 #wrapper {
+    background-image: url("images/background.jpg");
+    background-repeat:repeat-y;
+    background-size: 100%;
     display: flex;
-    margin-bottom: 20px;
+    padding-bottom: 20px;
 }
 #results {
     display: grid;
@@ -71,14 +78,17 @@ img {
     margin-top: -3px;
     padding: 10px 10px 5px;
     background-color: white;
+    border-radius: 6px;
 }
 
 .show-type {
     display: flex;
     flex-direction: column;
+    margin-left: 18px;
 }
 .show-rarity {
     margin-top: 50px;
+    margin-left: 18px;
 }
 
 .main-container {
