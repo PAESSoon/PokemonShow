@@ -138,7 +138,7 @@ function firstLetterToUpperCase(word) {
 }
 
 function helper(item) {
-  console.log("in ghelper");
+  console.log("in helper");
   console.log(item);
   const name = item.name;
   const cardType = item.types[0];
